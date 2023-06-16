@@ -22,6 +22,9 @@ on:
     # 对应的是 UTC 时间，需要转换，0 代表北京时间8点，每个月1日/15日16点编译一次
     - cron: 0 8 1,15 * *
 
+  # 手动触发，https://learn.microsoft.com/zh-cn/training/modules/github-actions-automate-tasks/2c-configure-github-actions-workflow
+  workflow_dispatch:
+
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
@@ -62,6 +65,11 @@ jobs:
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+        
+        # 2023-06-16 临时处理，回滚代码，等无线问题解决
+        cd openwrt
+        git checkout 26f3634631244eedfbdfd61ea6cc3a2d7f5d896f
+        git checkout -b 26f363463
       # 添加红米ax6 编译选项
     - name: Redmi ax6 support
       run: |
