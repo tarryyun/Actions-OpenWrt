@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: Build x86_64
+name: Build x86_64 Include Passwall2 And Mosdns
 
 on: 
   release:
@@ -18,9 +18,9 @@ on:
     #branches:
       #- master
 
-  # schedule:
+  schedule:
     # 对应的是 UTC 时间，需要转换，0 代表北京时间8点，每个月1日/15日12点编译一次
-    # - cron: 0 4 1,15 * *
+    - cron: 0 8 1,15 * *
 
   # 手动触发，https://learn.microsoft.com/zh-cn/training/modules/github-actions-automate-tasks/2c-configure-github-actions-workflow
   workflow_dispatch:
@@ -30,8 +30,8 @@ env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: x86_64.config
-  DIY_P1_SH: diy-part1.sh
+  CONFIG_FILE: x86_64_passwall2_mosdns.config
+  DIY_P1_SH: diy-part1-passwall2.sh
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
@@ -141,14 +141,14 @@ jobs:
         id: tag
         if: env.UPLOAD_RELEASE == 'true' && !cancelled()
         run: |
-          echo "release_tag=$(date +"%Y.%m.%d-x86_64")" >> $GITHUB_OUTPUT
+          echo "release_tag=$(date +"%Y.%m.%d-x86_64-Include-Passwall2-And-Mosdns")" >> $GITHUB_OUTPUT
           touch release.txt
           echo "X86-64 自用精简 Openwrt：" >> release.txt
           echo "默认系统后台：192.168.123.1" >> release.txt
           echo "账号：root" >> release.txt
           echo "密码：password" >> release.txt
           echo "编译的源码取自：https://github.com/coolsnowwolf/lede" >> release.txt
-          echo "集成插件：ssr plus、TTYD 终端" >> release.txt
+          echo "集成插件：passwall 2、mosdns、TTYD 终端" >> release.txt
           echo "默认主题：Argon" >> release.txt
           echo "status=success" >> $GITHUB_OUTPUT
       - name: Upload firmware to release
