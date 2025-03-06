@@ -10,9 +10,8 @@
 
 name: Build Xiaomi CR660X Include OpenClash
 
-on: 
-  release:
-    types: [published]
+on:
+  workflow_dispatch:
 
   #push:
     #branches:
