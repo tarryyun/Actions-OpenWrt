@@ -61,6 +61,8 @@ jobs:
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+    - name: Check space usage
+      run: df -hT
     # 配置 openClash
     - name: OpenClash
       run: |
